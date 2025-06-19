@@ -57,8 +57,7 @@ Use it at your own risk.
 5. Set environment variables in PowerShell within your project directory:
 
    ```
-   $env:NOTION_API_KEY="your-notion-key"
-   $env:CLAUDE_API_KEY="your-clause-key"
+   Change the variables within the views.py and the llm.py files to reflect your Notion API and Claude API Keys 
    ```
 
 6. Start the Ollama server:
