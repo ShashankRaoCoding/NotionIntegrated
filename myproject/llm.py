@@ -31,17 +31,16 @@ CLAUDE_API_URL = "https://api.anthropic.com/v1/complete"
 
 
 def lookup_with_claude(prompt: str) -> str:
-
     url = "https://api.anthropic.com/v1/messages"
     headers = {
-        "Authorization": f"Bearer {api_key}",
+        "x-api-key": api_key,  # NOTE: Claude uses x-api-key, not Authorization header
         "Content-Type": "application/json",
-        "anthropic-version": "2023-06-01",  
+        "anthropic-version": "2023-06-01",
     }
     data = {
-        "model": "claude-3-haiku-20240307",
+        "model": "claude-3-5-sonnet-20241022",
         "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 1000
+        "max_tokens": 1024
     }
 
     response = httpx.post(url, headers=headers, json=data)
@@ -49,9 +48,8 @@ def lookup_with_claude(prompt: str) -> str:
     if response.status_code != 200:
         raise RuntimeError(f"Claude API request failed: {response.status_code} {response.text}")
 
-    return response.json()["content"][0]["text"]
-
-
+    content_blocks = response.json()["content"]
+    return "".join(block["text"] for block in content_blocks if block["type"] == "text")
 
 
 
