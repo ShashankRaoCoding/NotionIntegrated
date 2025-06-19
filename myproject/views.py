@@ -17,8 +17,8 @@ def SummarisePage(request):
         pid = request.POST.get("page_id")  
         if pid:
             data = getPageData(pid) 
-            response_stream = llm.lookup_with_llama(data + "summarise this and style it like a LinkEDIN post") 
-            return StreamingHttpResponse(response_stream, content_type="text/plain; charset=utf-8")
+            response = llm.lookup_with_claude(data + "summarise this and style it like a LinkedIn post") 
+            return HttpResponse(response)
         else:
             return HttpResponse("No page selected", status=400)
     else:
