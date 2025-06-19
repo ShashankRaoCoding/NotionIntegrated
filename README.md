@@ -46,35 +46,32 @@ Use it at your own risk.
 1. Clone this repository.
 
 2. Install Python dependencies:
+     + Django 
 
-```
-   pip install -r requirements.txt
-````
-
-3. Install the LLaMA 3 model with Ollama:
+4. Install the LLaMA 3 model with Ollama:
 
    ```
    ollama pull llama3
    ```
 
-4. Set environment variables in PowerShell within your project directory:
+5. Set environment variables in PowerShell within your project directory:
 
    ```
    $env:NOTION_API_KEY="your-notion-key"
    $env:CLAUDE_API_KEY="your-clause-key"
    ```
 
-5. Start the Ollama server:
+6. Start the Ollama server:
 
    ```
    ollama serve
    ```
 
-6. Run the Django development server:
+7. Run the Django development server:
 
    ```
    python manage.py runserver
    ```
 
-7. Open your browser and navigate to [http://localhost:8000](http://localhost:8000) to access the app.
+8. Open your browser and navigate to [http://localhost:8000](http://localhost:8000) to access the app.
 
