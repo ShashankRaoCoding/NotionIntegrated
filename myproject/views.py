@@ -76,6 +76,38 @@ def get_page_ids_and_filenames():
 
     return pages
 
+def create_summary_page(parent_page_id, summary_text, title="Summary"):
+    notion.pages.create(
+        parent={"page_id": parent_page_id},
+        properties={
+            "title": {
+                "title": [
+                    {
+                        "text": {
+                            "content": title
+                        }
+                    }
+                ]
+            }
+        },
+        children=[
+            {
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": summary_text
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    )
+
 
 def getPageData(PAGE_ID): 
 
@@ -108,7 +140,11 @@ def get_all_blocks(block_id):
 
 def summarise(pid):
     data = getPageData(pid)
-    prompt = data + " Can you summarise the above? Thanks! :) Don't add any extra to the message or the summary"
+    prompt = data + "Here is the content of my week. Please produce:\n\n"
+                "1. A brief summary of what I did this week.\n"
+                "2. A list of concise bullet points suitable for my CV.\n\n"
+                "Only output these two parts, clearly labelled."
+                "\n\nContent:\n"
     # response_stream = llm.lookup_with_llama(prompt)
     
     # # Wrap the generator with StreamingHttpResponse for streaming
