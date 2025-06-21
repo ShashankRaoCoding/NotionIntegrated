@@ -5,7 +5,7 @@ from django.http import StreamingHttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-notion = Client(auth="NOTION_KEY_HERE")  
+notion = Client(auth=open("notion_key.txt", "r").readlines()[0].strip())  
 
 def index(request): 
     pidwnames = getAllPageIDsWNames() 
@@ -17,7 +17,8 @@ def SummarisePage(request):
         pid = request.POST.get("page_id")  
         if pid:
             data = getPageData(pid) 
-            response = llm.lookup_with_claude(data + "summarise this and style it like a LinkedIn post") 
+            response = llm.lookup_with_claude(data + "You are helping me organise my weekly work journal into a structured Notion page.\nBased on the content below, extract two sections:\n1. Actionable Points: clear, specific tasks or decisions that can be followed up on. Use bullet points.\n2. CV Points: concise, resume-style bullet points highlighting skills demonstrated, impact, or achievements. Use action verbs.\nKeep the language clean and professional. Only output these two sections, each with a bold heading.") 
+            create_summary_page(pid, response, "Summary") 
             return HttpResponse(response)
         else:
             return HttpResponse("No page selected", status=400)
@@ -137,18 +138,3 @@ def get_all_blocks(block_id):
         if block.get("has_children"):
             block["children"] = get_all_blocks(block["id"])
     return blocks
-
-def summarise(pid):
-    data = getPageData(pid)
-    prompt = data + "Here is the content of my week. Please produce:\n\n"
-                "1. A brief summary of what I did this week.\n"
-                "2. A list of concise bullet points suitable for my CV.\n\n"
-                "Only output these two parts, clearly labelled."
-                "\n\nContent:\n"
-    # response_stream = llm.lookup_with_llama(prompt)
-    
-    # # Wrap the generator with StreamingHttpResponse for streaming
-    # return StreamingHttpResponse(response_stream, content_type='text/plain')
-
-    response = llm.lookup_with_claude(prompt) 
-    return HttpResponse(response) 

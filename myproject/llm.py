@@ -24,7 +24,7 @@ def lookup_with_llama(prompt: str):
 
 
 # Environment variable name where the Claude API key is stored
-api_key = "CLAUSE_KEY_HERE"
+api_key = open("claude_key.txt", "r").readlines()[0].strip()
 
 # Claude API endpoint (replace with actual endpoint if different)
 CLAUDE_API_URL = "https://api.anthropic.com/v1/complete"
@@ -43,7 +43,8 @@ def lookup_with_claude(prompt: str) -> str:
         "max_tokens": 1024
     }
 
-    response = httpx.post(url, headers=headers, json=data)
+    Client = httpx.Client(timeout=60) 
+    response = Client.post(url, headers=headers, json=data)
 
     if response.status_code != 200:
         raise RuntimeError(f"Claude API request failed: {response.status_code} {response.text}")
