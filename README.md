@@ -1,5 +1,5 @@
 
-# Notion Integrated LinkedIn Post Generator
+# Notion Integrated 
 
 This project connects Notion with Ollama/Claude to generate summaries of your pages from Notion. 
 
