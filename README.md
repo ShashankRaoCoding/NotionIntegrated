@@ -1,5 +1,5 @@
 
-# Notion Integrated 
+# Notion Integrated / InternshipWizard 
 
 This project connects Notion with Ollama/Claude to generate summaries of your pages from Notion. 
 
